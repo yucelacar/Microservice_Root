@@ -1,0 +1,156 @@
+version: '3.8'
+
+networks:
+  intecon-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.23.0.0/16
+
+services:
+  document-reading:
+    image: intecon/document-reading-ui-service:10.0.1
+    container_name: document-reading-ui-service    
+    restart: on-failure
+    networks:
+      - intecon-network
+    ports:
+      - '9040:9040'
+    environment:
+      CONFIG_SERVER_URL: http://config-server:9080
+      ZIPKIN_SERVER_URL: http://zipkin:9411
+      EUREKA_SERVICE_URL: http://eureka-server:9070
+      INVOICE_PATH: /home/common/documents/invoices/
+      TEMPLATE_PATH: /home/common/documents/templates/
+      SERVER_PORT: 9040
+    volumes:
+        - document-reading-volume:/home/app
+        - common-document-volume:/home/common/documents
+
+  invoice-extract-service:
+    image: intecon/invoice-extract-service:10.0.1
+    container_name: invoice-extract-service   
+    restart: on-failure
+    networks:
+      - intecon-network
+    ports:
+      - '9010:9010'
+    environment:
+      CONFIG_SERVER_URL: http://config-server:9080
+      ZIPKIN_SERVER_URL: http://zipkin:9411
+      EUREKA_SERVICE_URL: http://eureka-server:9070
+      FASTAPI_URL: http://192.168.51.174:8000/
+      INVOICE_PATH: /home/common/documents/invoices/
+      TEMPLATE_PATH: /home/common/documents/templates/
+      SERVER_PORT: 9010
+    volumes:
+        - invoice-extract-volume:/home/app
+        - common-document-volume:/home/common/documents
+
+  output-mapping-service:
+    image: intecon/output-mapping-service:10.0.1
+    container_name: output-mapping-service
+    restart: on-failure
+    networks:
+      - intecon-network
+    ports:
+      - '9020:9020'
+    environment:
+      CONFIG_SERVER_URL: http://config-server:9080
+      ZIPKIN_SERVER_URL: http://zipkin:9411
+      EUREKA_SERVICE_URL: http://eureka-server:9070
+      SERVER_PORT: 9020
+    volumes:
+      - output-map-volume:/home/output_doc
+
+  document-parser-service:
+    image: intecon/document-parser-service:10.0.1
+    container_name: document-parser-service
+    restart: on-failure
+    networks:
+      - intecon-network
+    ports:
+      - '9030:9030'
+    environment:
+      CONFIG_SERVER_URL: http://config-server:9080
+      ZIPKIN_SERVER_URL: http://zipkin:9411
+      EUREKA_SERVICE_URL: http://eureka-server:9070
+      GLOBAL_CONTEXT_PATH: /home/common/documents/pdf/
+      GLOBAL_OCRWS_CONTEXT_PATH: /home/common/documents/pdf/ocrws/
+      SERVER_PORT: 9030
+    volumes:
+      - common-document-volume:/home/common/documents
+
+  saga-orchestrator:
+    image: intecon/saga-orchestrator:10.0.1
+    container_name: saga-orchestrator
+    restart: on-failure
+    networks:
+      - intecon-network
+    ports:
+      - '9000:9000'
+    environment:
+      SERVER_PORT: 9000
+
+  api-gateway:
+    image: intecon/gateway_server_app:10.0.1
+    container_name: api-gateway
+    networks:
+      - intecon-network
+    ports:
+      - '9090:9090'
+    restart: always
+    environment:
+      CONFIG_SERVER_URL: http://config-server:9080
+      ZIPKIN_SERVER_URL: http://zipkin:9411
+      EUREKA_SERVICE_URL: http://eureka-server:9070
+      SERVER_PORT: 9090
+
+  document-reading-db:
+    image: mongo
+    container_name: document-reading-db
+    hostname: document-reading-db
+    restart: always
+    networks:
+      - intecon-network
+    ports:
+        - "27017:27017"
+#    volumes:
+#        - mongo_data:/data/db
+
+  invoice-extract-service-db:
+    image: mongo
+    command: mongod --port 27018
+    container_name: invoice-extract-service-db
+    hostname: invoice-extract-service-db
+    restart: always
+    networks:
+      - intecon-network
+    ports:
+        - "27018:27018"
+#    volumes:
+#        - mongo_data:/data/db
+
+
+  output-mapping-service-db:
+    image: mongo
+    command: mongod --port 27019
+    container_name: output-mapping-service-db
+    hostname: output-mapping-service-db
+    restart: always
+    networks:
+      - intecon-network
+    ports:
+        - "27019:27019"
+#    volumes:
+#        - mongo_data:/data/db
+
+volumes:
+  invoice-extract-volume:
+    external: true
+  document-reading-volume:
+    external: true
+  common-document-volume:
+    external: true
+  output-map-volume:
+    external: true

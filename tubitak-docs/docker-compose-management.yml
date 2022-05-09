@@ -1,0 +1,41 @@
+version: '3.8'
+
+networks:
+  intecon-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.23.0.0/16
+
+services:
+  zipkin:
+    image: openzipkin/zipkin
+    ports:
+      - '9411:9411'
+    container_name: zipkin
+    networks:
+      - intecon-network
+  eureka-server:
+    image: intecon/eureka_server:10.0.1
+    container_name: eureka-server
+    networks:
+      - intecon-network
+    ports:
+      - '9070:9070'
+    restart: always
+    environment:
+      CONFIG_SERVER_URL: http://config-server:9080
+      ZIPKIN_SERVER_URL: http://zipkin:9411
+      SERVER_PORT: 9070  
+  admin-server:
+    image: intecon/admin_server:10.0.1
+    container_name: admin-server
+    networks:
+      - intecon-network
+    ports:
+      - '9060:9060'
+    restart: always
+    environment:
+      CONFIG_SERVER_URL: http://config-server:9080
+      EUREKA_SERVICE_URL: http://eureka-server:9070
+      SERVER_PORT: 9060

@@ -1,0 +1,62 @@
+version: '3.8'
+
+networks:
+  intecon-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.23.0.0/16
+
+services:
+  keycloak:
+    image: quay.io/keycloak/keycloak:17.0.0
+    ports:
+      - '8080:8080'
+    container_name: keycloak-V-17
+    networks:
+      intecon-network:
+        ipv4_address: 172.23.0.5
+    command: start-dev
+    environment:
+      KEYCLOAK_ADMIN: 'intecon'
+      KEYCLOAK_ADMIN_PASSWORD: 'magellan'
+    volumes:
+      - .local/keycloak/:/opt/jboss/keycloak/standalone/data/
+  config-server:
+    image: intecon/config_server:10.0.1
+    container_name: config-server
+    networks:
+      - intecon-network
+    healthcheck:
+        test: ["CMD", "curl", "-f", "http://localhost:9080"]
+        interval: 30s
+        timeout: 10s
+        retries: 5
+    environment:
+      CONFIG_SERVER_URL: http://config-server:9080
+      SERVER_PORT: 9080
+    ports:
+      - '9080:9080'
+    restart: always
+
+  axonserver:
+    image: axoniq/axonserver
+    hostname: axonserver
+    volumes:
+      - axonserver-data:/axonserver/data
+      - axonserver-events:/axonserver/events
+      - axonserver-log:/axonserver/log
+    ports:
+      - '8024:8024'
+      - '8124:8124'
+      - '8224:8224'
+    networks:
+      - intecon-network
+
+volumes:
+  axonserver-data:
+    external: true
+  axonserver-events:
+    external: true
+  axonserver-log:
+    external: true

@@ -1,0 +1,86 @@
+version: '3.8'
+
+networks:
+  intecon-network:
+
+services:
+  config-server:
+    container_name: config-server
+    image: intecon/config_server:10.0.1
+    networks:
+      - intecon-network
+    ports:
+      - "9080:9080"
+  zipkin:
+    container_name: 'zipkin_server'
+    image: zipkin-server
+    networks:
+      - intecon-network
+    ports:
+      - "9050:9411"
+
+  keycloak:
+    container_name: keycloak-server
+    image: keycloak-server:17.0.0
+    networks:
+      - intecon-network
+    ports:
+      - "9060:8080"
+    command: start-dev
+    environment:
+      KEYCLOAK_ADMIN: 'intecon'
+      KEYCLOAK_ADMIN_PASSWORD: 'magellan'
+
+  eureka-server:
+    container_name: eureka-server
+    image: intecon/eureka_server:10.0.1
+    networks:
+      - intecon-network
+    ports:
+      - "9070:9070"
+    restart: always
+    environment:
+      ZIPKIN_SERVER_URL: http://zipkin:9050
+      SPRING_BOOT_ADMIN_SERVER_URL: http://zipkin:9050
+      EUREKA_SERVICE_URL: http://eureka-server:9070
+      CONFIG_SERVER_URL: http://config-server:9080
+
+  admin-server:
+    container_name: admin-server
+    image: intecon/admin_server:10.0.1
+    networks:
+      - intecon-network
+    ports:
+      - "9030:9030"
+    environment:
+      EUREKA_SERVICE_URL: http://eureka-server:9070
+      CONFIG_SERVER_URL: http://config-server:9080
+
+  sample-project:
+    container_name: sample-project
+    image: intecon/sample-project:10.0.1
+    networks:
+      - intecon-network
+    ports:
+      - "9040:9040"
+    environment:
+      ZIPKIN_SERVER_URL: http://zipkin:9050
+      SPRING_BOOT_ADMIN_SERVER_URL: http://zipkin:9050
+      EUREKA_SERVICE_URL: http://eureka-server:9070
+      CONFIG_SERVER_URL: http://config-server:9080
+    depends_on:
+      - config-server
+      - eureka-server
+      - admin-server
+
+  api-gateway:
+    container_name: api-gateway
+    image: intecon/gateway-server-application:10.0.1
+    networks:
+      - intecon-network
+    ports:
+      - "9090:9090"
+    environment:
+      EUREKA_SERVICE_URL: http://eureka-server:9070
+    depends_on:
+      - eureka-server

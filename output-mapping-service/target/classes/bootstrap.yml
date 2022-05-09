@@ -1,0 +1,13 @@
+server:
+  port: ${SERVER_PORT:9020}
+spring:
+  profiles:
+    active: ${PROFILE:DEV}
+  application:
+    name: output-mapping-service
+
+  cloud:
+    config:
+      profile: native
+      uri: ${CONFIG_SERVER_URL:http://localhost:9080}
+

@@ -1,0 +1,12 @@
+D:\Work\NewVersion_Work\Tubitak_Microservice\Microservice_Root\InvoiceExtractService\src\main\java\com\intecon\invoiceextractoservice\ServletInitializer.java
+D:\Work\NewVersion_Work\Tubitak_Microservice\Microservice_Root\InvoiceExtractService\src\main\java\com\intecon\invoiceextractoservice\controller\InvoiceExtractServiceController.java
+D:\Work\NewVersion_Work\Tubitak_Microservice\Microservice_Root\InvoiceExtractService\src\main\java\com\intecon\invoiceextractoservice\aggregate\DocumentExtractAggregate.java
+D:\Work\NewVersion_Work\Tubitak_Microservice\Microservice_Root\InvoiceExtractService\src\main\java\com\intecon\invoiceextractoservice\entity\DocumentExtractionDetail.java
+D:\Work\NewVersion_Work\Tubitak_Microservice\Microservice_Root\InvoiceExtractService\src\main\java\com\intecon\invoiceextractoservice\service\FileStorageService.java
+D:\Work\NewVersion_Work\Tubitak_Microservice\Microservice_Root\InvoiceExtractService\src\main\java\com\intecon\invoiceextractoservice\config\KeycloakSecurityConfig.java
+D:\Work\NewVersion_Work\Tubitak_Microservice\Microservice_Root\InvoiceExtractService\src\main\java\com\intecon\invoiceextractoservice\service\InvoiceExtractionService.java
+D:\Work\NewVersion_Work\Tubitak_Microservice\Microservice_Root\InvoiceExtractService\src\main\java\com\intecon\invoiceextractoservice\repository\DocumentExtractionDetailRepository.java
+D:\Work\NewVersion_Work\Tubitak_Microservice\Microservice_Root\InvoiceExtractService\src\main\java\com\intecon\invoiceextractoservice\controller\TestController.java
+D:\Work\NewVersion_Work\Tubitak_Microservice\Microservice_Root\InvoiceExtractService\src\main\java\com\intecon\invoiceextractoservice\InvoiceExtractServiceApplication.java
+D:\Work\NewVersion_Work\Tubitak_Microservice\Microservice_Root\InvoiceExtractService\src\main\java\com\intecon\invoiceextractoservice\service\TemplateAdviceService.java
+D:\Work\NewVersion_Work\Tubitak_Microservice\Microservice_Root\InvoiceExtractService\src\main\java\com\intecon\invoiceextractoservice\controller\TemplateAdviceController.java
