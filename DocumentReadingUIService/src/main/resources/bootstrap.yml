@@ -1,0 +1,15 @@
+server:
+  port: ${SERVER_PORT:9040}
+spring:
+  mvc:
+    view:
+      prefix: /WEB-INF/views/
+      suffix: .jsp
+  profiles:
+    active: ${PROFILE:DEV}
+  application:
+    name: document-reading-ui-service
+  cloud:
+    config:
+      profile: native
+      uri: ${CONFIG_SERVER_URL:http://localhost:9080}

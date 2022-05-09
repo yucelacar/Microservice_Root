@@ -1,0 +1,13 @@
+server:
+  port: ${SERVER_PORT:9080}
+
+spring:
+  profiles:
+    active: native
+  cloud:
+    config:
+      server:
+        native:
+          search-locations: classpath:/microservice
+
+  

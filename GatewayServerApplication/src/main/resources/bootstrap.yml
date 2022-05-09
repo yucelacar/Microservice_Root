@@ -1,0 +1,64 @@
+server:
+  port: 9090
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_SERVICE_URL:http://localhost:9070}/eureka
+    register-with-eureka: false
+  instance:
+    preferIpAddress: true
+spring:
+  application:
+    name: api-gateway
+  main:
+    web-application-type: reactive  
+  cloud: 
+   gateway:   
+    globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "*" 
+            allowedHeaders: "*"
+            allowedMethods: "*"
+    routes:
+      - id: invoice-extract-service
+        uri: lb://invoice-extract-service
+        predicates:
+          - Path=/InvoiceExtraction/**, /templateAdvice/**
+
+      - id: document-reading-ui-service
+        uri: lb://document-reading-ui-service
+        predicates:
+          - Path=/documentHeader/**, /documentDetail/**, /documentExtraction/**, /documentMapping/**, /templateFinder/**
+
+      - id: output-mapping-service
+        uri: lb://output-mapping-service
+        predicates:
+          - Path=/outputMap/**
+#        filters:
+#          - RewritePath=/(?<segment>.*), /$\{segment}
+#          - name: Hystrix
+#            args:
+#                name: ticket-service
+#                fallbackUri: forward:/fb/ticket
+      - id: login_service
+        uri: 'http://172.23.0.5:8080'
+        predicates:
+          - Path=/realms/**
+
+      - id: admin-server
+        uri: 'http://localhost:9060'
+        predicates:
+          - Path=/applications/**
+
+      - id: document-parser-service
+        uri: lb://document-parser-service
+        predicates:
+          - Path=/documentParser/**
+     
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

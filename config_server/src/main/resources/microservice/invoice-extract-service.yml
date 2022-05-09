@@ -1,0 +1,71 @@
+server:
+  port: ${SERVER_PORT:9010}
+
+spring:
+  application:
+    name: invoice-extract-service
+  zipkin:
+    base-url: ${ZIPKIN_SERVER_URL:http://localhost:9050/}
+
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+  boot:
+    admin:
+      client:
+        url: ${SPRING_BOOT_ADMIN_SERVER_URL:http://localhost:9030}
+
+  data:
+    mongodb:
+      host: invoice-extract-service-db
+      #host: 127.0.0.1
+      port: 27018
+      database: intecon
+
+eureka:
+  instance:
+    leaseRenewalIntervalInSeconds: 10
+    health-check-url-path: /actuator/health
+    metadata-map:
+      startup: ${random.int}
+  client:
+    registryFetchIntervalSeconds: 5
+    serviceUrl:
+      defaultZone: ${EUREKA_SERVICE_URL:http://localhost:9070}/eureka
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+axon:
+  axonserver:
+    servers: axonserver:8124
+      
+keycloak:
+  realm: Tubitak-Auth
+  auth-server-url: http://172.23.0.5:8080
+  ssl-required: external
+  resource: tubitak-microservices
+  credentials.secret: VOoOxXyNdm3tYgn2WwDYZ6Txsg41CTrn
+  use-resource-role-mappings: true
+  bearer-only: true
+
+fastapi:
+  url: http://192.168.51.180:8000/
+
+file:
+  common:
+    invoice:
+      path: ${INVOICE_PATH:/home/common/documents/invoices/}
+    template:
+      path: ${TEMPLATE_PATH:/home/common/documents/templates/}

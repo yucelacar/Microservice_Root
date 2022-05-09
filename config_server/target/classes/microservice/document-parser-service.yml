@@ -1,0 +1,40 @@
+server:
+  port: ${SERVER_PORT:9030}
+global:
+  context:
+    path: ${GLOBAL_CONTEXT_PATH:/home/common/documents/pdf/} 
+  ocrws:
+    url: http://192.168.51.173:8080/OCREngineWS/services/OCREngineWS.OCREngineWSHttpSoap12Endpoint
+    context:
+      path: ${GLOBAL_OCRWS_CONTEXT_PATH:/home/common/documents/pdf/ocrws/}
+
+spring:
+  application:
+    name: document-parser-service
+  zipkin:
+    base-url: ${ZIPKIN_SERVER_URL:http://localhost:9411/}
+
+  boot:
+    admin:
+      client:
+        url: ${SPRING_BOOT_ADMIN_SERVER_URL:http://localhost:9030}
+
+eureka:
+  instance:
+    leaseRenewalIntervalInSeconds: 10
+    health-check-url-path: /actuator/health
+    metadata-map:
+      startup: ${random.int}
+  client:
+    registryFetchIntervalSeconds: 5
+    serviceUrl:
+      defaultZone: ${EUREKA_SERVICE_URL:http://localhost:9070}/eureka
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS

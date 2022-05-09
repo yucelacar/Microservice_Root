@@ -1,0 +1,15 @@
+D:\Work\NewVersion_Work\Tubitak_Microservice\Microservice_Root\core-api\src\main\java\com\intecon\coreapi\events\UpdatedExtractDocumentWithTemplateStatusEvent.java
+D:\Work\NewVersion_Work\Tubitak_Microservice\Microservice_Root\core-api\src\main\java\com\intecon\coreapi\events\DocumentExtractionFailedEvent.java
+D:\Work\NewVersion_Work\Tubitak_Microservice\Microservice_Root\core-api\src\main\java\com\intecon\coreapi\commands\ExtractDocumentCommand.java
+D:\Work\NewVersion_Work\Tubitak_Microservice\Microservice_Root\core-api\src\main\java\com\intecon\coreapi\commands\PrepareDocumentCommand.java
+D:\Work\NewVersion_Work\Tubitak_Microservice\Microservice_Root\core-api\src\main\java\com\intecon\coreapi\commands\PrepareTemplateCommand.java
+D:\Work\NewVersion_Work\Tubitak_Microservice\Microservice_Root\core-api\src\main\java\com\intecon\coreapi\events\DocumentExtractedEvent.java
+D:\Work\NewVersion_Work\Tubitak_Microservice\Microservice_Root\core-api\src\main\java\com\intecon\coreapi\events\DocumentPreparedEvent.java
+D:\Work\NewVersion_Work\Tubitak_Microservice\Microservice_Root\core-api\src\main\java\com\intecon\coreapi\commands\UpdateExtractDocumentStatusCommand.java
+D:\Work\NewVersion_Work\Tubitak_Microservice\Microservice_Root\core-api\src\main\java\com\intecon\coreapi\commands\UpdateExtractDocumentWithTemplateStatusCommand.java
+D:\Work\NewVersion_Work\Tubitak_Microservice\Microservice_Root\core-api\src\main\java\com\intecon\coreapi\enums\DocumentStatus.java
+D:\Work\NewVersion_Work\Tubitak_Microservice\Microservice_Root\core-api\src\main\java\com\intecon\coreapi\commands\ExtractDocumentWithTemplateCommand.java
+D:\Work\NewVersion_Work\Tubitak_Microservice\Microservice_Root\core-api\src\main\java\com\intecon\coreapi\events\UpdatedExtractDocumentStatusEvent.java
+D:\Work\NewVersion_Work\Tubitak_Microservice\Microservice_Root\core-api\src\main\java\com\intecon\coreapi\events\DocumentExtractionWithTemplateFailedEvent.java
+D:\Work\NewVersion_Work\Tubitak_Microservice\Microservice_Root\core-api\src\main\java\com\intecon\coreapi\events\TemplatePreparedEvent.java
+D:\Work\NewVersion_Work\Tubitak_Microservice\Microservice_Root\core-api\src\main\java\com\intecon\coreapi\events\DocumentExtractedWithTemplateEvent.java

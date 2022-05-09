@@ -1,0 +1,30 @@
+server:
+  port: 9070
+
+spring:
+  application:
+    name: eureka-server
+  zipkin:
+    base-url: ${ZIPKIN_SERVER_URL:http://localhost:9050/}
+
+  boot:
+    admin:
+      client:
+        url: ${SPRING_BOOT_ADMIN_SERVER_URL:http://localhost:9030}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+eureka:
+  server:
+    eviction-interval-timer-in-ms: 1000
+  instance:
+    hostname: ${EUREKA_SERVER_HOST:localhost}
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: ${EUREKA_SERVER_URL:http://localhost:9070/eureka}
